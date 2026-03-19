@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {useNavigate} from 'react-router'
 import "./App.css";
+import { RecipeContext } from "./context/ReceipeContext";
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const navigate = useNavigate();
+  const context = useContext(RecipeContext)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate(`/recipes/${searchTerm}`)
+    const searchTerm = context
+    navigate(`/recipes/${context?.searchTerm}`)
   }
 
   return (
@@ -16,7 +18,7 @@ function App() {
       <h3>Are you looking for a recipe. Look no further😁 </h3>
       <form onSubmit={handleSubmit}>
         <div>
-          <input type="text" placeholder="Search for recipes..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} required />
+          <input type="text" placeholder="Search for recipes..." value={context?.searchTerm} onChange={(e) => context?.setSearchTerm(e.target.value)} required />
           <button type="submit" className="ml-8">
             Search
           </button>
